@@ -4,7 +4,7 @@ if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
 }
 
-$sql = "SELECT id_paket,jenis_paket,kecepatan,kuota,harga FROM paket_layanan";
+$sql = "SELECT id_transaksi,id_pelanggan,id_paket,tanggal_berlangganan FROM transaksi";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -64,9 +64,9 @@ $result = $conn->query($sql);
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.php">Peket Layanan</a>
-                                    <a class="nav-link" href="paket.php">Data pelanggan</a>
-                                    <a class="nav-link" href="transaksi.php">Transaksi</a>
+                                    <a class="nav-link" href="layout-static.php">Paket Layanan</a>
+                                    <a class="nav-link" href="paket.php">Data Pelanggan</a>
+                                    <a class="nav-link" href="transaksi.php">transaksi</a>
                                     <a class="nav-link" href="bayar.php">Pembayaran</a>
                                 </nav>
                             </div>
@@ -88,14 +88,13 @@ $result = $conn->query($sql);
                                             <a class="nav-link" href="password.html">Forgot Password</a>
                                         </nav>
                                     </div>
-                                    
                                 </nav>
                             </div>
                             
                            
-                            <a class="nav-link" href="tables.php">
+                            <a class="nav-link" href="anak.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Transaksi
+                                table
                             </a>
                         </div>
                     </div>
@@ -108,24 +107,23 @@ $result = $conn->query($sql);
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Paket layanan</h1>
+                        <h1 class="mt-4">Tables</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="dashboard.html">halaman utama</a></li>
+                            <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
                             <li class="breadcrumb-item active">Tables</li>
                         </ol>
                         <div class="card mb-8>
                             <div class="card-header">
-                                <a href="tambah.detail.php"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="modal-default">tambah data  </button></a>
+                            <a href="tambah.transaksi.php"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="modal-default">tambah data  </button></a>
                             </div>
                             <div class="card-body">
                                 <table class="table table-hover table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
-                                            <th>jenis paket</th>
-                                            <th>kecepatan</th>
-                                            <th>kuota</th>
-                                            <th>harga</th>
+                                            <th>id transaksi</th>
+                                            <th>id pelanggan</th>
+                                            <th>id paket</th>
+                                            <th>tanggal berlangganan</th>
                                             <th>aksi</th>
                                             
                                         </tr>
@@ -135,13 +133,12 @@ $result = $conn->query($sql);
                                     if ($result->num_rows > 0) {
                                         while ($row = $result->fetch_assoc()) {
                                             echo "<tr>";
+                                            echo "<td>" . $row["id_transaksi"] . "</td>";
+                                            echo "<td>" . $row["id_pelanggan"] . "</td>";
                                             echo "<td>" . $row["id_paket"] . "</td>";
-                                            echo "<td>" . $row["jenis_paket"] . "</td>";
-                                            echo "<td>" . $row["kecepatan"] . "</td>";
-                                            echo "<td>" . $row["kuota"] . "</td>";
-                                            echo "<td>" . $row["harga"] . "</td>";
-                                            echo '<td><a class="btn icon btn-primary" href="update.detail.php?id=' . $row["id_paket"] . '"><i class="fa fa-pencil"></i></a>';
-                                            echo '<a class="btn icon btn-danger" href="delete.detail.php?id=' . $row["id_paket"] . '"><i class="fa fa-trash"></i></a></td>';
+                                            echo "<td>" . $row["tanggal_berlangganan"] . "</td>";
+                                            echo '<td><a class="btn icon btn-primary" href="update.transaksi.php?id=' . $row["id_transaksi"] . '"><i class="fa fa-pencil"></i></a>';
+                                            echo '<a class="btn icon btn-danger" href="delete.transaksi.php?id=' . $row["id_transaksi"] . '"><i class="fa fa-trash"></i></a></td>';
                                             echo "</tr>";
                                         }
                                     } else {

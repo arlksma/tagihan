@@ -8,15 +8,16 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_pelanggan = $_POST["id_pelanggan"];
-    $nama = $_POST["nama"];
-    $daya = $_POST["daya"];
+    $id_paket = $_POST["id_paket"];
+    $jenis_paket = $_POST["jenis_paket"];
+    $kecepatan = $_POST["kecepatan"];
+    $kuota = $_POST["kuota"];
     $harga = $_POST["harga"];
 
-    $sql = "INSERT INTO data_pengguna (id_pelanggan, nama, daya, harga) VALUES ('$id_pelanggan', '$nama', '$daya', '$harga')";
+    $sql = "INSERT INTO paket_layanan (id_paket, jenis_paket, kecepatan, kuota, harga) VALUES ('$id_paket', '$jenis_paket', '$kecepatan', '$kuota','$harga')";
 
     if ($conn->query($sql) === true) {
-        header("location: tables.php");
+        header("location: layout-static.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
@@ -48,25 +49,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-md-4">
                                 <form action="" method="POST">
 
-                                    <label for="email-horizontal">ID PELANGGAN</label>
+                                    <label for="email-horizontal">ID PAKET</label>
                                 </div>
                             <div class="col-md-8 form-group">
-                                <input type="text" id="email-horizontal" class="form-control" name="id_pelanggan" placeholder="id_pelanggan">
+                                <input type="text" id="email-horizontal" class="form-control" name="id_paket" placeholder="id_paket">
                             </div>
                             <div class="col-md-4">
-                              <label for="contact-info-horizontal">NAMA</label>
+                              <label for="contact-info-horizontal">JENIS PAKET</label>
                             </div>
                             <div class="col-md-8 form-group">
-                                <input type="text" id="contact-info-horizontal" class="form-control" name="nama" placeholder="nama">
+                                <input type="text" id="contact-info-horizontal" class="form-control" name="jenis_paket" placeholder="jenis_paket">
                             </div>
                             <div class="col-md-4">
-                              <label for="contact-info-horizontal">DAYA</label>
+                              <label for="contact-info-horizontal">KECEPATAN</label>
                             </div>
                             <div class="col-md-8 form-group">
-                                <input type="text" id="contact-info-horizontal" class="form-control" name="daya" placeholder="daya">
+                                <input type="text" id="contact-info-horizontal" class="form-control" name="kecepatan" placeholder="kecepatan">
                             </div>
                             <div class="col-md-4">
-                              <label for="contact-info-horizontal">harga</label>
+                              <label for="contact-info-horizontal">KUOTA</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                              <input type="text" id="contact-info-horizontal" class="form-control" name="kuota" placeholder="kuota">
+                            </div>
+                            <div class="col-md-4">
+                              <label for="contact-info-horizontal">HARGA</label>
                             </div>
                             <div class="col-md-8 form-group">
                               <input type="text" id="contact-info-horizontal" class="form-control" name="harga" placeholder="harga">
@@ -75,10 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <button type="submit" class="btn btn-primary me-1 mb-1">
                                     Submit
                                 </button>
-                                <button type="reset" class="btn btn-light-secondary me-1 mb-1">
-                                    Reset
-                                </button>
-                                <button type="button" class="btn btn-danger me-1 mb-1" onclick="location.href='tagihan.php'">
+                                <button type="button" class="btn btn-danger me-1 mb-1" onclick="location.href='layout-static.php'">
                                     Kembali
                                 </button>
                             </div>

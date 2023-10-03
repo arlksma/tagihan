@@ -1,47 +1,26 @@
 <?php
+require 'app/config.php';
+
 $conn = new mysqli('localhost', 'root', '', 'tagihan');
 
 if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
 }
 
-$id_paket = ""; // Inisialisasi nilai awal untuk id_pelanggan
-
-if (isset($_GET["id"])) {
-    $id_paket = $_GET["id"];
-    $sql = "SELECT * FROM paket_layanan WHERE id_paket='$id_paket'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $data = $result->fetch_assoc();
-        $id_paket = $data["id_paket"];
-        $jenis_paket = $data["jenis_paket"];
-        $kecepatan= $data["kecepatan"];
-        $kuota= $data["kuota"];
-        $harga = $data["harga"];
-    } else {
-        echo "Data tidak ditemukan.";
-    }
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_paket = $_POST["id_paket"];
-    $jenis_paket = $_POST["jenis_paket"];
-    $kecepatan = $_POST["kecepatan"];
-    $kuota = $_POST["kuota"];
-    $harga = $_POST["harga"];
+    $id_pembayaran = $_POST["id_pembayaran"];
+    $tanggal_pembayaran = $_POST["tanggal_pembayaran"];
+    $keterangan = $_POST["keterangan"];
+    $nominal = $_POST["nominal"];
 
-    $sql_update = "UPDATE paket_layanan SET id_paket='$id_paket', jenis_paket='$jenis_paket', kecepatan='$kecepatan', kuota='$kuota', harga='$harga' WHERE id_paket='$id_paket'";
-    
-    if ($conn->query($sql_update) === true) {
-        header("Location: layout-static.php"); // Ganti transaksi.php dengan halaman yang sesuai
-        exit;
+    $sql = "INSERT INTO pembayaran (id_pembayaran, tanggal_pembayaran, keterangan, nominal) VALUES ('$id_pembayaran', '$tanggal_pembayaran', '$keterangan', '$nominal')";
+
+    if ($conn->query($sql) === true) {
+        header("location: bayar.php");
     } else {
-        echo "Error: " . $sql_update . "<br>" . $conn->error;
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,40 +48,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-md-4">
                                 <form action="" method="POST">
 
-                                    <label for="email-horizontal">ID PAKET</label>
+                                    <label for="email-horizontal">ID PEMBAYARAN</label>
                                 </div>
                             <div class="col-md-8 form-group">
-                                <input type="text" id="email-horizontal" class="form-control" name="id_paket" placeholder="id_paket" value="<?= $data['id_paket']?>">
+                                <input type="text" id="email-horizontal" class="form-control" name="id_pembayaran" placeholder="id_pembayaran">
                             </div>
                             <div class="col-md-4">
-                              <label for="contact-info-horizontal">JENIS PAKET</label>
+                              <label for="contact-info-horizontal">TANGGAL PEMBAYARAN</label>
                             </div>
                             <div class="col-md-8 form-group">
-                                <input type="text" id="contact-info-horizontal" class="form-control" name="jenis_paket" placeholder="jenis_paket" value="<?= $data['jenis_paket']?>">
+                                <input type="date" id="contact-info-horizontal" class="form-control" name="tanggal_pembayaran" placeholder="tanggal_pembayaran">
                             </div>
                             <div class="col-md-4">
-                              <label for="contact-info-horizontal">KECEPATAN</label>
+                              <label for="contact-info-horizontal">KETERANGAN</label>
                             </div>
                             <div class="col-md-8 form-group">
-                                <input type="text" id="contact-info-horizontal" class="form-control" name=" kecepatan" placeholder=" kecepatan" value="<?= $data['kecepatan']?>">
+                                <input type="text" id="contact-info-horizontal" class="form-control" name="keterangan" placeholder="keterangan">
                             </div>
                             <div class="col-md-4">
-                              <label for="contact-info-horizontal">KUOTA</label>
+                              <label for="contact-info-horizontal">NOMINAL</label>
                             </div>
                             <div class="col-md-8 form-group">
-                                <input type="text" id="contact-info-horizontal" class="form-control" name=" kuota" placeholder=" kuota" value="<?= $data['kuota']?>">
-                            </div>
-                            <div class="col-md-4">
-                              <label for="contact-info-horizontal">HARGA</label>
-                            </div>
-                            <div class="col-md-8 form-group">
-                              <input type="text" id="contact-info-horizontal" class="form-control" name="harga" placeholder="harga" value="<?= $data['harga']?>">
+                              <input type="text" id="contact-info-horizontal" class="form-control" name="nominal" placeholder="nominal">
                             </div>
                             <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary me-1 mb-1">
                                     Submit
                                 </button>
-                                <button type="button" class="btn btn-danger me-1 mb-1" onclick="location.href='layout-static.php'">
+                                <button type="button" class="btn btn-danger me-1 mb-1" onclick="location.href='bayar.php'">
                                     Kembali
                                 </button>
                             </div>
